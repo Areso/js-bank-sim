@@ -1,0 +1,164 @@
+<html>
+<head>
+<style type="text/css">
+	.statusbar {
+		//border: 1px solid red; 
+		float:left;
+		margin-left:10px;
+	}
+	/* Style the tab */
+	div.tab {
+		overflow: hidden;
+		border: 1px solid #ccc;
+		width: 800px;
+		background-color: #f1f1f1;
+	}
+	/* Style the buttons inside the tab */
+	div.tab button {
+		background-color: inherit;
+		float: left;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		padding: 14px 16px;
+		transition: 0.3s;
+		font-size: 17px;
+	}
+	/* Change background color of buttons on hover */
+	div.tab button:hover {
+		background-color: #ddd;
+	}
+	/* Create an active/current tablink class */
+	div.tab button.active {
+		background-color: #ccc;
+	}
+	/* Style the tab content */
+	.tabcontent {
+		display: none;
+		padding: 6px 0px;
+		border: 1px solid #ccc;
+		border-top: none;
+		height: 470px;
+		width: 800px;/*800-12*2*/
+	}
+	/* Style the close button */
+	.topright {
+		float: right;
+		cursor: pointer;
+		font-size: 20px;
+	}
+	.topright:hover {color: red;}
+</style>
+</head>
+<body>
+<script>
+var game_status = {
+	money          : 350000000,
+	week           : 1,
+	reputation     : 51,
+	sanation       : 0,
+	license        : 1,
+	extManagement  : 0,
+	reset_status   : function() {
+		this.money         = 350000000;
+		this.week          = 1;
+		this.reputation    = 51;
+		this.sanation      = 0,
+		this.license       = 1,
+		this.extManagement = 0,
+	}
+}
+function StartGame() {
+	document.getElementById("situation1").setAttribute("style", "display:none");
+	game_status.reset_status();
+	document.getElementById("mainWindow").setAttribute("style", "");
+}
+function EndGameDialog() {
+	document.getElementById("situation1").setAttribute("style", "display:none");
+	document.getElementById("situation2").setAttribute("style", "");
+}
+function InitGame() {
+	document.getElementById("situation1").setAttribute("style", "");
+	document.getElementById("situation2").setAttribute("style", "display:none");
+}
+function CloseGame() {
+	window.close();
+}
+function saveGame(saveConfirmation) {
+	if (saveConfirmation=="silent") { 
+		writeSave();
+	} else {
+		var answer = confirm("Save game? It will rewrite any save you already have!");
+		if (answer === true) {
+			writeSave();
+		}
+	}
+}
+function writeSave(){
+	localStorage.setItem('gold', gold);
+	localStorage.setItem('pop', pop);
+	localStorage.setItem('buildLevelD', buildLevelD);
+	localStorage.setItem('buildLevelH', buildLevelH);
+	localStorage.setItem('treasuryGuard', treasuryGuard);
+	localStorage.setItem('buildLevelTreasury', buildLevelTreasury);
+	localStorage.setItem('buildLevelGallows', buildLevelGallows);
+	localStorage.setItem('buildLevelFountain', buildLevelFountain);
+	localStorage.setItem('buildLevelStash', buildLevelStash);
+	localStorage.setItem('fire', fire);
+	localStorage.setItem('autosave', autosave);
+	localStorage.setItem('happyness', happyness);
+	document.getElementById("console_n_chat").value = document.getElementById("console_n_chat").value+"\r\n"+getTime(0)+": "+msg_game_saved;
+	scrollDown();
+}
+</script>
+<div id="history">
+<div id="situation1">
+Ваш отец решил, что самое время приобщить вас к его бизнесу.</br>
+В то время, как ваш старший брат работает его непосредственным помощником, <br>
+отец предложил вам стать руководителем новосозданного банка его группы компаний,<br>
+не пропадать же столь дорогому (хоть и купленному) образованию в престижном ВУЗе.<br>
+Вы согласны?
+<div id="path1" onclick="StartGame()">Да </div>
+<div id="path2" onclick="EndGameDialog()">Нет </div>
+</div>
+<div id="situation2" style="display: none">Вы проиграли! Начать заново?
+<div id="path3" onclick="InitGame()">Да </div>
+<div id="path4" onclick="CloseGame()">Нет </div>
+</div>
+<div id="mainWindow" style="display: none">
+<div id="money" class="statusbar">0</div>
+<div id="week" class="statusbar">0</div>
+<div id="reputation" class="statusbar">0</div>
+</div>
+</div>
+<div id="game">
+<div class="tab">
+	<button class="tablinks" onclick="openTab(event, 'Main')" id="defaultOpen">Main</button>
+	<button class="tablinks" onclick="openTab(event, 'SecondTab')">Explore</button>
+</div>
+<div id="Main" class="tabcontent">
+	MAIN TAB
+</div>
+<div id="SecondTab" class="tabcontent">
+	SECOND TAB
+</div>
+</div>
+<script>
+	function openTab(evt, tabName) {
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tablinks");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+		document.getElementById(tabName).style.display = "block";
+		evt.currentTarget.className += " active";
+	}
+	// Get the element with id="defaultOpen" and click on it
+	document.getElementById("defaultOpen").click();
+</script>
+</body>
+</html>
