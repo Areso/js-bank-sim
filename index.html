@@ -63,15 +63,46 @@ var game_status = {
 		this.money         = 350000000;
 		this.week          = 1;
 		this.reputation    = 51;
-		this.sanation      = 0,
-		this.license       = 1,
-		this.extManagement = 0,
+		this.sanation      = 0;
+		this.license       = 1;
+		this.extManagement = 0;
 	}
 }
+language = "ru-RU";//"en-US"
+stringsRuRU = [];
+stringsEnUS = [];
+function loadStrings(){
+	stringsRuRU[0] = "Ваш отец решил, что самое время приобщить вас к его бизнесу"+"\n"+
+		"В то время, как ваш старший брат работает его непосредственным помощником,"+"\n"+
+		"отец предложил вам стать руководителем новосозданного банка его группы компаний,"+"\n"+
+		"не пропадать же столь дорогому (хоть и купленному) образованию в престижном ВУЗе."+"\n"+
+		"Вы согласны?!";
+	
+}
+window.onload = function() {
+	updateStoryCaptions();
+}
+function updateStoryCaptions () {
+	document.getElementById("situation1").value = stringsLang(language,0);
+}
+function stringsLang(language,stringNumber){
+	if (language=="ru-RU"){
+		return stringsRuRU[stringNumber];
+	}
+	if (language=="en-US"){
+		return stringsEnUS[stringNumber];
+	}
+}
+  function ready() {
+    alert( 'DOM готов' );
+    
+  }
+
+  document.addEventListener("DOMContentLoaded", ready);	
 function StartGame() {
 	document.getElementById("situation1").setAttribute("style", "display:none");
+	document.getElementById("game").setAttribute("style", "");
 	game_status.reset_status();
-	document.getElementById("mainWindow").setAttribute("style", "");
 }
 function EndGameDialog() {
 	document.getElementById("situation1").setAttribute("style", "display:none");
@@ -95,20 +126,8 @@ function saveGame(saveConfirmation) {
 	}
 }
 function writeSave(){
-	localStorage.setItem('gold', gold);
-	localStorage.setItem('pop', pop);
-	localStorage.setItem('buildLevelD', buildLevelD);
-	localStorage.setItem('buildLevelH', buildLevelH);
-	localStorage.setItem('treasuryGuard', treasuryGuard);
-	localStorage.setItem('buildLevelTreasury', buildLevelTreasury);
-	localStorage.setItem('buildLevelGallows', buildLevelGallows);
-	localStorage.setItem('buildLevelFountain', buildLevelFountain);
-	localStorage.setItem('buildLevelStash', buildLevelStash);
-	localStorage.setItem('fire', fire);
-	localStorage.setItem('autosave', autosave);
-	localStorage.setItem('happyness', happyness);
-	document.getElementById("console_n_chat").value = document.getElementById("console_n_chat").value+"\r\n"+getTime(0)+": "+msg_game_saved;
-	scrollDown();
+	localStorage.setItem('game_status', game_status);
+	//scrollDown();
 }
 </script>
 <div id="history">
@@ -131,16 +150,32 @@ function writeSave(){
 <div id="reputation" class="statusbar">0</div>
 </div>
 </div>
-<div id="game">
+<div id="game" style="display:none">
 <div class="tab">
-	<button class="tablinks" onclick="openTab(event, 'Main')" id="defaultOpen">Main</button>
-	<button class="tablinks" onclick="openTab(event, 'SecondTab')">Explore</button>
+	<button class="tablinks" onclick="openTab(event, 'Status')" id="defaultOpen">Статус</button>
+	<button class="tablinks" onclick="openTab(event, 'Deposits')">Депозиты</button>
+	<button class="tablinks" onclick="openTab(event, 'Credits')">Кредиты</button>
+	<button class="tablinks" onclick="openTab(event, 'FrontOffices')">Фронт офисы</button>
+	<button class="tablinks" onclick="openTab(event, 'BackOffices')">Бэк офисы</button>
+	<button class="tablinks" onclick="openTab(event, 'CallCenter')">Колл центр</button>
 </div>
-<div id="Main" class="tabcontent">
+<div id="Status" class="tabcontent">
 	MAIN TAB
 </div>
-<div id="SecondTab" class="tabcontent">
+<div id="Deposits" class="tabcontent">
 	SECOND TAB
+</div>
+<div id="Credits" class="tabcontent">
+	THIRD TAB
+</div>
+<div id="FrontOffices" class="tabcontent">
+	4TH TAB
+</div>
+<div id="BackOffices" class="tabcontent">
+	5TH TAB
+</div>
+<div id="BackOffices" class="tabcontent">
+	6TH TAB
 </div>
 </div>
 <script>
